@@ -1,0 +1,49 @@
+{
+  "MinDamage": 38,
+  "MaxDamage": 43,
+  "Health": 170,
+  "MaxHealth": 170,
+  "DamageMultiplier": 1,
+  "Level": 29,
+  "CurrentExp": 100,
+  "LevelExp": 3000,
+  "CriticalChance": 20,
+  "Inventory": {
+    "Attack Potion": {
+      "Name": "Attack Potion",
+      "Count": 21,
+      "Description": "+25% Damage in this fight",
+      "Chance": 30
+    },
+    "Fire Potion": {
+      "Name": "Fire Potion",
+      "Count": 15,
+      "Description": "Deals 100 dmg",
+      "Chance": 30
+    },
+    "Health Potion": {
+      "Name": "Health Potion",
+      "Count": 22,
+      "Description": "+25% HP",
+      "Chance": 30
+    }
+  },
+  "SKills": {
+    "CriticalDamage": {
+      "Name": "CriticalDamage",
+      "LevelUnlock": 20,
+      "Description": "20% CriticalChance",
+      "Type": "passive",
+      "CoolDown": 0,
+      "BaseCoolDown": 0
+    },
+    "DrainStrike": {
+      "Name": "DrainStrike",
+      "LevelUnlock": 5,
+      "Description": "Deals 1,5x damage and heals 0,5x damage",
+      "Type": "active",
+      "CoolDown": 0,
+      "BaseCoolDown": 4
+    }
+  }
+}

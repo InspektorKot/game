@@ -1,0 +1,1 @@
+INSERT INTO class (name , min_damage, max_damage, health, critical_chance) VALUES ('Knight', 2 , 4, 30, 5), ('Rogue', 4, 10, 20, 10), ('Mage', 3, 5, 25, 0);

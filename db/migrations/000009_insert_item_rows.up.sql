@@ -1,0 +1,1 @@
+INSERT INTO item (name, description) VALUES ('Health Potion', '+25% HP'), ('Attack Potion', '+25% Damage in this fight'), ('Fire Potion', 'Deals 100 dmg');
