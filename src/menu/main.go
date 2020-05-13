@@ -3,13 +3,14 @@ package menu
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/InspektorKot/game.git/classes"
+	"github.com/InspektorKot/game.git/src/managers"
+	"github.com/InspektorKot/game.git/src/models"
 	"github.com/manifoldco/promptui"
 	"io/ioutil"
 	"os"
 )
 
-func MainMenu() (classes.Character, string) {
+func MainMenu(menuManager managers.MenuDataManager) (models.Character, string) {
 	prompt := promptui.Select{
 		Label: "Главное меню",
 		Items: []string{"Новая игра", "Загрузить игру", "Выйти"},
@@ -24,7 +25,7 @@ func MainMenu() (classes.Character, string) {
 			fmt.Println("Введите имя персонажа")
 			fmt.Fscan(os.Stdin, &buf)
 
-			hero := SelectHero()
+			hero := SelectHero(managers.GetClassNameList(menuManager))
 			file, _ := json.MarshalIndent(hero, "", " ")
 			_ = ioutil.WriteFile(fmt.Sprintf("%s.json", buf), file, 0644)
 			return hero, buf
@@ -35,7 +36,7 @@ func MainMenu() (classes.Character, string) {
 			fmt.Fscan(os.Stdin, &buf)
 			if _, err := os.Stat(fmt.Sprintf("%s.json", buf)); err == nil {
 				data, _ := ioutil.ReadFile(fmt.Sprintf("%s.json", buf))
-				var hero classes.Character
+				var hero models.Character
 				json.Unmarshal([]byte(data), &hero)
 				return hero, buf
 			} else {
@@ -47,5 +48,5 @@ func MainMenu() (classes.Character, string) {
 	case 2:
 		os.Exit(1)
 	}
-	return classes.Character{}, buf
+	return models.Character{}, buf
 }

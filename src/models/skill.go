@@ -1,4 +1,4 @@
-package classes
+package models
 
 type Skill struct {
 	Name         string

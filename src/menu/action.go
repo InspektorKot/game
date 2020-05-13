@@ -2,11 +2,11 @@ package menu
 
 import (
 	"fmt"
-	"github.com/InspektorKot/game.git/classes"
+	"github.com/InspektorKot/game.git/src/models"
 	"github.com/manifoldco/promptui"
 )
 
-func SelectAction(character *classes.Character, enemy *classes.Enemy) int {
+func SelectAction(character *models.Character, enemy *models.Enemy) int {
 	prompt := promptui.Select{
 		Label: "Выберите действие",
 		Items: []string{"Атаковать", "Сбежать", "Использовать инвентарь", "Использовать навыки"},
@@ -32,7 +32,7 @@ func SelectAction(character *classes.Character, enemy *classes.Enemy) int {
 	return 0
 }
 
-func SelectItem(character *classes.Character, enemy *classes.Enemy) {
+func SelectItem(character *models.Character, enemy *models.Enemy) {
 
 	var Inventory []string
 	for _, item := range character.Inventory {
@@ -58,7 +58,7 @@ func SelectItem(character *classes.Character, enemy *classes.Enemy) {
 	case "Attack Potion":
 		character.DamageMultiplier = 1.25
 	case "Fire Potion":
-		classes.TrueDamage(enemy, 100)
+		models.TrueDamage(enemy, 100)
 	}
 
 	var buf = character.Inventory[value]
@@ -70,7 +70,7 @@ func SelectItem(character *classes.Character, enemy *classes.Enemy) {
 	}
 }
 
-func SelectSkill(character *classes.Character, enemy *classes.Enemy) {
+func SelectSkill(character *models.Character, enemy *models.Enemy) {
 
 	var Skills []string
 	for _, skill := range character.SKills {
@@ -91,16 +91,16 @@ func SelectSkill(character *classes.Character, enemy *classes.Enemy) {
 
 	switch value {
 	case "DoubleAttack":
-		classes.TrueDamage(enemy, character.MaxDamage*2)
+		models.TrueDamage(enemy, character.MaxDamage*2)
 	case "DrainStrike":
 		damage := int(float64(character.MaxDamage) * 1.5)
-		classes.TrueDamage(enemy, damage)
+		models.TrueDamage(enemy, damage)
 		character.Health += damage
 		if character.Health > character.MaxHealth {
 			character.Health = character.MaxHealth
 		}
 	case "Fireball":
-		classes.TrueDamage(enemy, character.MaxDamage*3)
+		models.TrueDamage(enemy, character.MaxDamage*3)
 	case "Heal":
 		character.Health += int(float64(character.MaxHealth) * 1.3)
 		if character.Health > character.MaxHealth {
