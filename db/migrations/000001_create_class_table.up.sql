@@ -1,4 +1,4 @@
-CREATE TABLE classes (
+CREATE TABLE class (
 id serial primary key ,
 name varchar not null unique ,
 min_damage int not null,

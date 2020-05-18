@@ -1,1 +1,1 @@
-DROP TABLE classes ;
+DROP TABLE class;

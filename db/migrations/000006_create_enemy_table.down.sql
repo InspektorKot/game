@@ -1,1 +1,1 @@
-DROP TABLE enemies;
+DROP TABLE enemy;

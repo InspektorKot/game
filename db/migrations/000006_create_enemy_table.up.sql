@@ -1,4 +1,4 @@
-CREATE TABLE enemies(
+CREATE TABLE enemy(
 id serial primary key ,
 name varchar not null ,
 level int not null ,

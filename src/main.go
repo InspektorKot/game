@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"github.com/InspektorKot/game.git/src/managers"
 	"github.com/InspektorKot/game.git/src/menu"
-	"github.com/InspektorKot/game.git/src/models"
 	"github.com/InspektorKot/game.git/src/storage"
-	//sq "github.com/Masterminds/squirrel"
 	_ "github.com/lib/pq" // here
 )
 
@@ -21,20 +19,11 @@ func main() {
 	s := storage.New(conn)
 
 	menuDataManager := managers.NewMenuDataManager(s)
+	playerManager := managers.NewPlayerManager(s)
+	enemyManager := managers.NewEnemyManager(s)
+	itemManager := managers.NewItemManaqer(s)
 
-	//query := sq.Insert("models").
-	//	Columns("name","min_damage","max_damage","health","critical_chance").
-	//	Values("Warrior",4,7,22,15).
-	//	RunWith(conn).
-	//	PlaceholderFormat(sq.Dollar)
-	//_, err = query.Exec()
-
-	//fmt.Printf( "%s\n", data[0].Health);
-	//
-	//fmt.Println(err)
-	//os.Exit(1)
-
-	hero, name := menu.MainMenu(menuDataManager)
+	hero := menu.MainMenu(menuDataManager, playerManager)
 
 	day := 1
 
@@ -43,39 +32,45 @@ func main() {
 		fmt.Printf("День %d ", day)
 		fmt.Println()
 
-		var enemy = models.CreateEnemy()
+		var enemy = managers.GetEnemy(enemyManager)
 
 		fmt.Printf("Вы встретили %s (%d HP)", enemy.Name, enemy.Health)
 		fmt.Println()
 
 		for {
-			key := menu.SelectAction(&hero, &enemy)
+			key := menu.SelectAction(menuDataManager, &hero, &enemy)
 			if key == 1 {
-				models.SaveHero(hero, name)
+				managers.Save(playerManager, hero)
 				break
 			}
-			enemy.CheckHealth(&hero)
-
-			for key, skill := range hero.SKills {
-				if skill.Type == "active" && skill.CoolDown > 0 {
-					var buf = hero.SKills[key]
-					buf.CoolDown = buf.CoolDown - 1
-					hero.SKills[key] = buf
-				}
-			}
-
 			if enemy.Health <= 0 {
-				for key, skill := range hero.SKills {
-					if skill.Type == "active" && skill.CoolDown > 0 {
-						var buf = hero.SKills[key]
-						buf.CoolDown = 0
-						hero.SKills[key] = buf
-					}
-				}
-				models.SaveHero(hero, name)
+				fmt.Println("Вы победили")
+				fmt.Println()
+
+				hero.GainExp(enemy.Exp)
+				managers.Drop(itemManager, enemy.Id, hero.Id)
+			}
+			//
+			//for key, skill := range hero.SKills {
+			//	if skill.Type == "active" && skill.CoolDown > 0 {
+			//		var buf = hero.SKills[key]
+			//		buf.CoolDown = buf.CoolDown - 1
+			//		hero.SKills[key] = buf
+			//	}
+			//}
+			//
+			if enemy.Health <= 0 {
+				//	for key, skill := range hero.SKills {
+				//		if skill.Type == "active" && skill.CoolDown > 0 {
+				//			var buf = hero.SKills[key]
+				//			buf.CoolDown = 0
+				//			hero.SKills[key] = buf
+				//		}
+				//	}
+				managers.Save(playerManager, hero)
 				break
 			}
-
+			//
 			enemy.Attack(&hero)
 			hero.CheckHealth()
 

@@ -1,21 +1,17 @@
 package menu
 
 import (
-	"github.com/InspektorKot/game.git/src/models"
 	"github.com/manifoldco/promptui"
 )
 
-func SelectHero(data []string) models.Character {
-
+func SelectHero(data []string) string {
 
 	prompt := promptui.Select{
 		Label: "Select Character",
 		Items: data,
 	}
 
-	key, _ := selectFromMenu(prompt)
+	_, value := selectFromMenu(prompt)
 
-	hero := models.Create(key)
-
-	return hero
+	return value
 }

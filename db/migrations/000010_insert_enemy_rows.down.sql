@@ -1,1 +1,1 @@
-TRUNCATE TABLE enemies;
+TRUNCATE TABLE enemy;
